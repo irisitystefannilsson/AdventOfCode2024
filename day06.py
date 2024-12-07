@@ -41,20 +41,16 @@ def closed_circuit(map: np.full, start: list):
     new_pos = pos
     while True:
         new_pos = [pos[0] + moves[m_index][0], pos[1] + moves[m_index][1]]
-        #print(new_pos)
         try:
             if map[new_pos[0]][new_pos[1]] == '#':
                 m_index = (m_index + 1) % 4
             else:
                 pos = new_pos
                 if dirs[m_index] in used_states[new_pos[0], new_pos[1]]:
-                    #print(dirs[m_index], pos, used_states[new_pos[0], new_pos[1]])
-                    #print(map)
                     return True
                 else:
                     used_states[new_pos[0], new_pos[1]].append(dirs[m_index])
         except Exception:
-            #print(used_states)
             return False
 
 
@@ -95,7 +91,6 @@ def advent6_2():
         for j in range(map_size[1]):
             orig_char = map[i][j]
             map[i][j] = '#'
-            #print(map)
             if closed_circuit(map, guard_start):
                 sum += 1
             map[i][j] = orig_char
