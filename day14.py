@@ -1,5 +1,6 @@
 import time
 import numpy as np
+from math import sqrt
 
 
 class robot:
@@ -16,6 +17,15 @@ class robot:
         if bounds[0][0] <= self.p[0] < bounds[0][1] and bounds[1][0] <= self.p[1] < bounds[1][1]:
             return True
         return False
+
+
+def mean_robot_dist(robots: list):
+    tot_dist = 0
+    for i in range(len(robots)):
+        for j in range(i + 1, len(robots)):
+            dist = sqrt((robots[i].p[0] - robots[j].p[0])**2 + (robots[i].p[1] - robots[j].p[1])**2)
+            tot_dist += dist
+    return 2*tot_dist / len(robots)**2
 
 
 def advent14_1():
@@ -65,25 +75,63 @@ def advent14_2():
         v = row[1][2:].split(',')
         robots.append(robot((int(p[1]), int(p[0])), (int(v[1]), int(v[0])), tile_size))
 
-    tiles = np.full(tile_size, '.', dtype=str)
+    tiles = np.full(tile_size, ' ', dtype=str)
     for r in robots:
         tiles[r.p[0]][r.p[1]] = '*'
     for r in range(tile_size[0]):
         for c in range(tile_size[1]):
             print(tiles[r][c], end='')
         print()
-    t_end = 0
+
+    t_end = 10000
     for t in range(t_end):
         print(t)
-        tiles = np.full(tile_size, '.', dtype=str)
         for r in robots:
             r.update()
-            tiles[r.p[0]][r.p[1]] = '*'
-        for r in range(tile_size[0]):
-            for c in range(tile_size[1]):
-                print(tiles[r][c], end='')
-            print()
-
+        mdist = mean_robot_dist(robots)
+        if mdist < 45:
+            tiles = np.full(tile_size, ' ', dtype=str)
+            for r in robots:
+                tiles[r.p[0]][r.p[1]] = '*'
+            for r in range(tile_size[0]):
+                for c in range(tile_size[1]):
+                    print(tiles[r][c], end='')
+                print()
+            time.sleep(3)
+    # Cristmas tree shows up after 6587 [s]
+    #  *******************************
+    #      *                             *                              
+    #      *                             *          *                   
+    #      *                             *                              
+    #      *                             *                              
+    #      *              *              *                              
+    #      *             ***             *                   *          
+    #      *            *****            *                              
+    #      *           *******           *                              
+    #      *          *********          *                              
+    #      *            *****            *                              
+    #      *           *******           *           *         *        
+    #      *          *********          *     *                        
+    #      *         ***********         *                              
+    #      *        *************        *                              
+    #  *   *          *********          *                              
+    #      *         ***********         *       *                      
+    #      *        *************        *                              
+    #      *       ***************       *                              
+    # *    *      *****************      *                              
+    #      *        *************        *    *                         
+    #      *       ***************       *                              
+    #      *      *****************      *                              
+    #      *     *******************     *                              
+    #      *    *********************    *                   *          
+    #      *             ***             *                              
+    #      *             ***             *                              
+    #      *             ***             *            *                 
+    #      *                             *                              
+    #      *                             *                              
+    #      *                             *   *                          
+    #      *******************************
+     
 
 if __name__ == '__main__':
 
