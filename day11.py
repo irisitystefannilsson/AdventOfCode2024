@@ -23,7 +23,7 @@ def blink(stones: list):
 def advent11_1():
     file = open('input11.txt')
     stones = file.read().strip('\n').split(' ')
-    nof_blinks = 15
+    nof_blinks = 25
     old_len = len(stones)
     old_diff = 0
     print(0, old_len, 0, 0)
@@ -38,14 +38,45 @@ def advent11_1():
 
 
 def advent11_2():
-    pass
+    file = open('input11.txt')
+    stones = file.read().strip('\n').split(' ')
+    nof_blinks = 25
+    for b in range(nof_blinks):
+        stones = blink(stones)
+        print(b + 1, len(stones))
+
+    print('Nof stones(25):', len(stones))
+
+    sorted_stones = dict()
+    for stone in stones:
+        sorted_stones[stone] = sorted_stones.get(stone, 0) + 1
+
+    nof_stones = 0
+    more_sorted_stones = dict()
+    for stone_type in sorted_stones.keys():
+        stones2nd = [stone_type]    
+        for b in range(nof_blinks):
+            stones2nd = blink(stones2nd)
+        nof_stones += sorted_stones[stone_type]*len(stones2nd)
+        for stone in stones2nd:
+            more_sorted_stones[stone] = more_sorted_stones.get(stone, 0) + sorted_stones[stone_type]
+    print('Nof stones(50):', nof_stones)
+    # print(len(more_sorted_stones.keys()))
+
+    nof_stones = 0
+    for stone_type in more_sorted_stones.keys():
+        stones3rd = [stone_type]    
+        for b in range(nof_blinks):
+            stones3rd = blink(stones3rd)
+        nof_stones += more_sorted_stones[stone_type]*len(stones3rd)
+    print('Nof stones(75):', nof_stones)
 
 
 if __name__ == '__main__':
 
     start_time = time.time()
     print('Advent 1')
-    advent11_1()
-    #advent11_2()
+    # advent11_1()
+    advent11_2()
     end_time_1 = time.time()
     print("time elapsed: {:.2f}s".format(end_time_1 - start_time))
