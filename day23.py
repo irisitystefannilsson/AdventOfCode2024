@@ -48,7 +48,7 @@ def advent23_2():
             computers.add(pc2)
         lan.add_edge(pc1, pc2)
     cliques = list(nx.enumerate_all_cliques(lan))
-    cliques.sort(key=len, reverse=True, )
+    cliques.sort(key=len, reverse=True)
     passwd = list()
     for n in cliques[0]:
         passwd.append(n)
