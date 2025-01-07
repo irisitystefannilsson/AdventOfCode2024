@@ -20,7 +20,7 @@ def advent22_1():
     for line in file:
         num = int(line.strip('\n'))
         start_numbers.append(num)
-        
+
     nof_new_nums = 2000
     final_numbers = []
     pseudo_sum = 0
@@ -40,7 +40,7 @@ def advent22_2():
     for line in file:
         num = int(line.strip('\n'))
         start_numbers.append(num)
-        
+
     nof_new_nums = 2000
     price_changes = []
     idx = 0
@@ -75,7 +75,7 @@ def advent22_2():
                 used.add(b[0])
         max_bananas = max(max_bananas, bananas)
     print('Bananas:', max_bananas)
-    
+
 
 if __name__ == '__main__':
 
